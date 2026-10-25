@@ -1,0 +1,10 @@
+services:
+  airflow:
+    build: .
+    environment:
+      AIRFLOW__CORE__PARALLELISM: "1"
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./.airflow:/opt/airflow
+      - ./data:/app/data

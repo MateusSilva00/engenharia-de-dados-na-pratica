@@ -1,0 +1,14 @@
+[project]
+name = "engenharia-de-dados-na-pratica"
+version = "0.1.0"
+description = "Aula 3: ingestão da base Online Retail com Python e Airflow"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "apache-airflow==3.3.2",
+    "loguru>=0.7,<1",
+    "openpyxl>=3.1,<4",
+    "pandas>=2.2,<3",
+    "pyarrow>=18",
+    "pydantic>=2,<3",
+    "requests>=2.32,<3",
+]
