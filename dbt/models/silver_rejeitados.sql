@@ -1,3 +1,6 @@
-select *
-from {{ ref('stg_itens') }}
-where motivo_rejeicao is not null
+SELECT
+    *
+FROM
+    {{ ref('stg_itens') }}
+WHERE
+    motivo_rejeicao IS NOT NULL

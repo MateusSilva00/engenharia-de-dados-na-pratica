@@ -1,11 +1,18 @@
-{{ config(materialized='view') }}
-select *,
-    case
-        when nullif(trim(nota), '') is null then 'nota ausente'
-        when nullif(trim(produto), '') is null then 'produto ausente'
-        when data_nota is null then 'data ausente'
-        when quantidade is null then 'quantidade ausente'
-        when preco is null then 'preço ausente'
-        when nullif(trim(pais), '') is null then 'país ausente'
-    end as motivo_rejeicao
-from {{ source('bronze', 'online_retail') }}
+{{ config(
+    materialized = 'view'
+) }}
+
+SELECT
+    *,
+    CASE
+        WHEN NULLIF(TRIM(nota), '') IS NULL THEN 'nota ausente'
+        WHEN NULLIF(TRIM(produto), '') IS NULL THEN 'produto ausente'
+        WHEN data_nota IS NULL THEN 'data ausente'
+        WHEN quantidade IS NULL THEN 'quantidade ausente'
+        WHEN preco IS NULL THEN 'preço ausente'
+        WHEN NULLIF(TRIM(pais), '') IS NULL THEN 'país ausente'END AS motivo_rejeicao
+        FROM
+            {{ source(
+                'bronze',
+                'online_retail'
+            ) }}
