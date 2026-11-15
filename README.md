@@ -105,3 +105,30 @@ Para gerar a documentação:
 Para trocar de etapa, use `git switch aula-03`, `git switch aula-04` ou
 `git switch aula-05` e rode `docker compose up -d --build --remove-orphans`.
 Os arquivos de dados e os volumes nomeados persistem entre as aulas.
+
+## Aula 5 — Painel e qualidade
+
+Acrescente `METABASE_READER_PASSWORD` ao seu `.env` com uma senha local
+distinta, se ele já veio da Aula 4. Suba os serviços e execute a DAG.
+Abra <http://localhost:3000>, conclua a configuração local e adicione
+PostgreSQL com host `postgres`, porta `5432`, banco igual a `POSTGRES_DB`,
+usuário `metabase_reader` e senha igual a `METABASE_READER_PASSWORD`.
+Sincronize o esquema `gold` depois do primeiro build.
+
+Crie três perguntas SQL e coloque-as em um painel **Online Retail**:
+
+| Cartão | Visualização | Consulta |
+| --- | --- | --- |
+| Vendas brutas (GBP) | Número | `select sum(vendas_brutas_gbp) as total_gbp from gold.gold_vendas_dia` |
+| Vendas por dia | Linha | `select dia, vendas_brutas_gbp from gold.gold_vendas_dia order by dia` |
+| Vendas por país | Barras | `select pais, vendas_brutas_gbp from gold.gold_vendas_pais order by vendas_brutas_gbp desc` |
+
+A conciliação compara o mesmo total agrupado por duas dimensões. Rode o
+primeiro comando para ver o teste passar. O segundo deve falhar: soma
+£1 ao lado de países somente na consulta de teste. As tabelas do painel
+continuam com seus valores originais.
+
+```sh
+docker compose exec airflow uv run --locked dbt test --project-dir dbt --profiles-dir dbt --select conciliar_gold
+docker compose exec airflow uv run --locked dbt test --project-dir dbt --profiles-dir dbt --select conciliar_gold --vars '{"demonstrar_divergencia": true}'
+```
