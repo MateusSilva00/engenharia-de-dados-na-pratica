@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from airflow.sdk import dag, task
 
 from ingestao import baixar_excel, salvar_parquet
+from transformacao import carregar_postgres, executar_dbt
 
 
 @dag(
@@ -17,7 +18,10 @@ def online_retail():
     baixar = task(baixar_excel)()
     salvar = task(salvar_parquet)()
 
-    baixar >> salvar
+    carregar = task(carregar_postgres)()
+    modelar = task(executar_dbt)()
+
+    baixar >> salvar >> carregar >> modelar
 
 
 dag = online_retail()

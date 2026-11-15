@@ -4,3 +4,7 @@ __pycache__/
 data/
 .airflow/
 .env
+
+.env
+/dbt/target/
+/dbt/logs/

@@ -1,0 +1,29 @@
+version: 2
+sources:
+  - name: bronze
+    schema: bronze
+    tables:
+      - name: online_retail
+models:
+  - name: silver_itens
+    description: Uma linha por posição na fonte. Preserva cancelamentos e cliente ausente.
+    columns:
+      - name: linha
+        data_tests: [unique, not_null]
+  - name: silver_rejeitados
+    description: Linhas sem campos obrigatórios, com motivo de rejeição.
+    columns:
+      - name: linha
+        data_tests: [unique, not_null]
+      - name: motivo_rejeicao
+        data_tests: [not_null]
+  - name: gold_vendas_dia
+    description: Uma linha por dia. Soma em GBP de quantidade vezes preço de itens positivos e sem cancelamento.
+    columns:
+      - name: dia
+        data_tests: [unique, not_null]
+  - name: gold_vendas_pais
+    description: Uma linha por país. Mesma regra da Gold diária, agrupada por país.
+    columns:
+      - name: pais
+        data_tests: [unique, not_null]

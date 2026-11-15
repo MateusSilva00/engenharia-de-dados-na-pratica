@@ -7,7 +7,7 @@ ENV UV_LINK_MODE=copy
 COPY pyproject.toml uv.lock ./
 RUN uv sync --locked --no-dev --no-install-project
 
-COPY ingestao.py ./
+COPY ingestao.py transformacao.py ./
 COPY dags/ ./dags/
 
 ENV AIRFLOW_HOME=/opt/airflow \

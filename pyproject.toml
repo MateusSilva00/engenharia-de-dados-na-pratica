@@ -5,9 +5,12 @@ description = "Aula 3: ingestão da base Online Retail com Python e Airflow"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "apache-airflow==3.3.2",
+    "dbt-core>=1.10,<2",
+    "dbt-postgres>=1.9,<2",
     "loguru>=0.7,<1",
     "openpyxl>=3.1,<4",
     "pandas>=2.2,<3",
+    "psycopg2-binary>=2.9,<3",
     "pyarrow>=18",
     "pydantic>=2,<3",
     "requests>=2.32,<3",

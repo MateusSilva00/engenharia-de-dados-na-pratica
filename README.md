@@ -87,3 +87,21 @@ Chen, D. (2015). **Online Retail**. UCI Machine Learning Repository. [DOI: 10.24
 Os preços estão em libras esterlinas; a base não informa confirmação de pagamento. Ela é um arquivo histórico obtido por HTTP, não uma API de pedidos.
 
 Referências: [dataset e dicionário](https://archive.ics.uci.edu/dataset/352/online%2Bretail), [Airflow standalone](https://airflow.apache.org/docs/apache-airflow/3.3.2/start.html), [TaskFlow](https://airflow.apache.org/docs/apache-airflow/3.3.2/tutorial/taskflow.html) e [dependências explícitas](https://airflow.apache.org/docs/apache-airflow/3.3.2/core-concepts/dags.html#task-dependencies).
+
+## Aula 4 — Da Bronze à Gold
+Execute `cp -n .env.example .env`, ajuste a senha local e rode
+`docker compose up -d --build --remove-orphans`. Dispare a DAG
+`online_retail` na UI do Airflow. As quatro tarefas baixam o Excel, gravam
+o Parquet, recarregam o PostgreSQL e executam `dbt build`.
+
+A posição no Parquet identifica cada linha do lote. A carga usa uma transação
+para substituir a entrada. A Silver conserva cancelamentos e quantidades
+negativas. A Gold soma quantidade × preço apenas para vendas com quantidade
+e preço positivos e nota sem prefixo C. Os totais estão em GBP.
+
+Para gerar a documentação:
+`docker compose exec airflow uv run --locked dbt docs generate --project-dir dbt --profiles-dir dbt`.
+
+Para trocar de etapa, use `git switch aula-03`, `git switch aula-04` ou
+`git switch aula-05` e rode `docker compose up -d --build --remove-orphans`.
+Os arquivos de dados e os volumes nomeados persistem entre as aulas.

@@ -8,3 +8,23 @@ services:
     volumes:
       - ./.airflow:/opt/airflow
       - ./data:/app/data
+      - ./dbt:/app/dbt
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+  postgres:
+    image: postgres:16
+    env_file:
+      - .env
+    volumes:
+      - warehouse:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+volumes:
+  warehouse:
