@@ -42,8 +42,3 @@ def salvar_parquet() -> None:
     )
     dados.to_parquet(arquivo_parquet, index=False)
     logger.info("{} linhas gravadas em {}", len(dados), arquivo_parquet)
-
-
-if __name__ == "__main__":
-    baixar_excel()
-    salvar_parquet()
