@@ -1,5 +1,13 @@
 # Engenharia de Dados na Prática
 
+## Arquitetura da pipeline
+
+Visão da pipeline completa, da ingestão na Aula 3 ao painel no Metabase na Aula 5.
+
+![Arquitetura da pipeline Online Retail](docs/arquitetura-pipeline-drawio.png)
+
+[Arquivo editável do Draw.io](docs/arquitetura-pipeline.drawio)
+
 ## Aula 3 — Ingestão com Python e Airflow
 
 Baixamos a base real **Online Retail**, preservamos o Excel original e gravamos seus dados em Parquet na camada Bronze. Não há limpeza, deduplicação ou dados simulados nesta aula.
