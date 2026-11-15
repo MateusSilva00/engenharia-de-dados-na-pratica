@@ -70,16 +70,6 @@ Para parar sem apagar os dados:
 docker compose down
 ```
 
-### Roteiro de gravação — 40 minutos
-
-1. **5 min:** conhecer a fonte real e os oito campos.
-2. **5 min:** preparar o ambiente com uv.
-3. **15 min:** explicar e executar `ingestao.py`.
-4. **10 min:** executar a DAG e acompanhar os logs no Airflow.
-5. **5 min:** abrir o Parquet e apresentar a próxima aula de transformação.
-
-Deixe a instalação e a construção da imagem prontas antes de gravar. Explique cada bloco do script e compare a quantidade de linhas no Excel e no Parquet. Não trate `InvoiceNo` sozinho como identificador único de uma linha: uma nota pode conter vários produtos.
-
 ### Fonte e licença dos dados
 
 Chen, D. (2015). **Online Retail**. UCI Machine Learning Repository. [DOI: 10.24432/C5BW33](https://doi.org/10.24432/C5BW33). Dados de um varejista britânico, de dezembro de 2010 a dezembro de 2011. Licença dos dados: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
