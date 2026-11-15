@@ -12,33 +12,7 @@ Visão da pipeline completa, da ingestão na Aula 3 ao painel no Metabase na Aul
 
 Baixamos a base real **Online Retail**, preservamos o Excel original e gravamos seus dados em Parquet na camada Bronze. Não há limpeza, deduplicação ou dados simulados nesta aula.
 
-### 1. Executar com Python
-
-Instale o [uv](https://docs.astral.sh/uv/getting-started/installation/) e execute na raiz deste repositório:
-
-No Windows, use WSL2 para seguir os comandos da aula.
-
-```bash
-uv sync --locked
-uv run python ingestao.py
-```
-
-O uv prepara o Python 3.12 e instala as dependências do `uv.lock`. A primeira instalação e o download da base precisam de internet.
-
-Arquivos gerados, sobrescritos em cada execução:
-
-- `data/raw/Online Retail.xlsx`: arquivo original da UCI.
-- `data/bronze/online_retail.parquet`: todas as linhas e colunas da planilha, sem o índice do pandas.
-
-`InvoiceNo` e `StockCode` são lidos como texto porque identificadores podem conter letras. `Description` também é lido como texto: o Excel contém valores numéricos nessa coluna, e o Parquet exige um tipo consistente por coluna. O Excel original permanece intacto. Cancelamentos, valores ausentes e registros repetidos permanecem na Bronze.
-
-Para inspecionar o resultado:
-
-```bash
-uv run python -c 'import pandas as pd; dados = pd.read_parquet("data/bronze/online_retail.parquet"); print(dados.shape); print(dados.head().to_string(index=False))'
-```
-
-### 2. Executar pelo Airflow
+### Executar pelo Airflow
 
 Com Docker e Docker Compose instalados:
 
@@ -68,9 +42,9 @@ baixar >> salvar
 
 `task(funcao)` é a forma de aplicar `@task` a uma função importada, sem criar uma função intermediária. Os parênteses registram as tarefas; a execução fica a cargo do Airflow. `baixar >> salvar` faz a conversão esperar o download terminar. `dag = online_retail()` constrói a DAG decorada com `@dag`, sem executar a ingestão.
 
-Todos os imports ficam no topo. As tarefas usam o Excel no diretório compartilhado, sem passagem de dados por XCom. No terminal, o script executa as mesmas duas funções em sequência.
+Todos os imports ficam no topo. As tarefas usam o Excel no diretório compartilhado, sem passagem de dados por XCom.
 
-O serviço usa Airflow 3.3.2 em modo `standalone`, com estado persistido em `.airflow/`. É um ambiente didático local, não uma configuração de produção. A porta fica acessível apenas na própria máquina. Execute pelo terminal e pela DAG em momentos separados: ambos sobrescrevem os mesmos arquivos.
+O serviço usa Airflow 3.3.2 em modo `standalone`, com estado persistido em `.airflow/`. É um ambiente didático local, não uma configuração de produção. A porta fica acessível apenas na própria máquina.
 
 Para parar sem apagar os dados:
 
