@@ -1,5 +1,15 @@
-select linha, trim(nota) as nota, trim(produto) as produto, descricao,
-       quantidade, data_nota, preco, cliente, trim(pais) as pais,
-       upper(left(trim(nota), 1)) = 'C' as cancelado
-from {{ ref('stg_itens') }}
-where motivo_rejeicao is null
+SELECT
+    linha,
+    TRIM(nota) AS nota,
+    TRIM(produto) AS produto,
+    descricao,
+    quantidade,
+    data_nota,
+    preco,
+    cliente,
+    TRIM(pais) AS pais,
+    UPPER(LEFT(TRIM(nota), 1)) = 'C' AS cancelado
+FROM
+    {{ ref('stg_itens') }}
+WHERE
+    motivo_rejeicao IS NULL

@@ -1,4 +1,13 @@
-select pais as pais, sum(quantidade * preco) as vendas_brutas_gbp
-from {{ ref('silver_itens') }}
-where quantidade > 0 and preco > 0 and not cancelado
-group by 1
+SELECT
+    pais AS pais,
+    SUM(
+        quantidade * preco
+    ) AS vendas_brutas_gbp
+FROM
+    {{ ref('silver_itens') }}
+WHERE
+    quantidade > 0
+    AND preco > 0
+    AND NOT cancelado
+GROUP BY
+    1
